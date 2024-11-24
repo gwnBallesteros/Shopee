@@ -11,11 +11,20 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                <nav class="bg-white border-b border-gray-200">
+                    <div class="container mx-auto px-4 flex justify-between items-center py-4">
+                        <!-- Left: Navigation Links -->
+                        <div class="flex space-x-4">
+                            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'text-blue-600 font-bold' : 'text-gray-800 hover:text-blue-600' }}">
+                                Dashboard
+                            </a>
+                            <a href="{{ route('product_list') }}" class="{{ request()->routeIs('product_list') ? 'text-blue-600 font-bold' : 'text-gray-800 hover:text-blue-600' }}">
+                                Product List
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
             </div>
 
             <!-- Settings Dropdown -->

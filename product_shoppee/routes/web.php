@@ -28,6 +28,4 @@ Route::post('/products', [ProductController::class, 'store'])->name('products.st
 Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 
 
-
-
-
+Route::get('/product_list', [ProductController::class, 'product_list'])->name('product_list');

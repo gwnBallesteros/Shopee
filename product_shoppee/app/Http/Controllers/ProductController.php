@@ -15,6 +15,14 @@ class ProductController extends Controller
         $products = Product::with('images')->get();
         return view('dashboard', compact('products'));
     }
+    public function product_list()
+    {
+        // Fetch all products from the database
+        $products = Product::all();
+
+        // Pass the products to the view
+        return view('product_list', compact('products'));
+    }
 
     public function create()
     {
