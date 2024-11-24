@@ -13,28 +13,24 @@
             @csrf
             @method('PUT')
 
-            <!-- Product Name -->
             <div class="form-group">
                 <label for="name" class="block text-lg font-medium text-gray-700">Product Name</label>
                 <input type="text" name="name" value="{{ old('name', $product->name) }}"
                        class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
             </div>
 
-            <!-- Product Description -->
             <div class="form-group">
                 <label for="description" class="block text-lg font-medium text-gray-700">Description</label>
                 <textarea name="description"
                           class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description', $product->description) }}</textarea>
             </div>
 
-            <!-- Product Price -->
             <div class="form-group">
                 <label for="price" class="block text-lg font-medium text-gray-700">Price</label>
                 <input type="text" name="price" value="{{ old('price', $product->price) }}"
                        class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
             </div>
 
-            <!-- Product Images -->
             <div class="form-group">
                 <label for="images" class="block text-lg font-medium text-gray-700">Product Images</label>
                 <input type="file" name="images[]" multiple

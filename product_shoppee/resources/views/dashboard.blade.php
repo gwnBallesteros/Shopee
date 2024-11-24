@@ -7,7 +7,6 @@
     </x-slot>
 
     <div class="container mx-auto px-6 py-12">
-        <!-- Add Product Button -->
         <div class="flex justify-end mb-10">
             <a href="{{ route('products.create') }}">
                 <button class="flex items-center bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-6 py-3 rounded-full shadow hover:from-indigo-600 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-indigo-400">
@@ -19,32 +18,42 @@
             </a>
         </div>
 
-        <!-- Products Section -->
         <div>
             @if($products->isEmpty())
                 <p class="text-gray-500 text-center text-lg">No products available yet. Start by adding a new product.</p>
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     @foreach ($products as $product)
-                        <!-- Product Card -->
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform transition hover:scale-105 hover:shadow-2xl">
-                            <!-- Product Image -->
                             <div class="relative h-56">
                                 @if($product->images->isNotEmpty())
-                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                                    <div class="relative w-full h-full overflow-hidden" id="carousel-{{ $product->id }}">
+                                        @foreach ($product->images as $index => $image)
+                                            <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $product->name }}"
+                                                 class="carousel-image absolute w-full h-full object-cover transition-opacity duration-500"
+                                                 style="{{ $index === 0 ? 'opacity: 1;' : 'opacity: 0;' }}">
+                                        @endforeach
+                                    </div>
+
+                                    <button onclick="changeImage('{{ $product->id }}', -1)"
+                                            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75 transition">
+                                        &#8592;
+                                    </button>
+                                    <button onclick="changeImage('{{ $product->id }}', 1)"
+                                            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75 transition">
+                                        &#8594;
+                                    </button>
                                 @else
                                     <img src="{{ asset('storage/no-image.jpg') }}" alt="No image available" class="w-full h-full object-cover">
                                 @endif
                             </div>
 
-                            <!-- Product Details -->
                             <div class="p-6">
                                 <h3 class="text-xl font-semibold text-gray-900">{{ $product->name }}</h3>
                                 <p class="text-sm text-gray-500 mt-2">{{ Str::limit($product->description, 50) }}</p>
                                 <p class="text-lg font-bold text-indigo-600 mt-4">${{ number_format($product->price ?? 0, 2) }}</p>
                             </div>
 
-                            <!-- Action Buttons -->
                             <div class="flex justify-between items-center p-6 bg-gray-50">
                                 <a href="{{ route('products.edit', $product) }}" class="text-indigo-500 font-semibold hover:text-indigo-600">
                                     Edit
@@ -61,4 +70,17 @@
             @endif
         </div>
     </div>
+
+    <script>
+
+            function changeImage(productId, direction) {
+                const images = document.querySelectorAll(`#carousel-${productId} img`);
+                let currentIndex = Array.from(images).findIndex(image => image.style.opacity === '1');
+                const totalImages = images.length;
+                let newIndex = (currentIndex + direction + totalImages) % totalImages;
+
+                images.forEach(image => image.style.opacity = '0');
+                images[newIndex].style.opacity = '1';
+            }
+        </script>
 </x-app-layout>

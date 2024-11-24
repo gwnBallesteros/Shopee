@@ -13,7 +13,6 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 @foreach ($products as $product)
                     <div class="bg-white p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                        <!-- Product Image Carousel -->
                         <div class="relative">
                             @if ($product->images->isNotEmpty())
                                 <div class="carousel-container">
@@ -22,7 +21,6 @@
                                     @endforeach
                                 </div>
 
-                                <!-- Arrow Buttons -->
                                 <button onclick="changeImage('{{ $product->id }}', -1)" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 p-2 rounded-full hover:bg-gray-800">
                                     &#8592;
                                 </button>
@@ -34,12 +32,10 @@
                             @endif
                         </div>
 
-                        <!-- Product Details -->
                         <h3 class="text-xl font-semibold text-gray-900 truncate">{{ $product->name }}</h3>
                         <p class="text-sm text-gray-600 mt-2 truncate">{{ $product->description }}</p>
                         <p class="text-lg font-bold text-indigo-600 mt-4">${{ number_format($product->price ?? 0, 2) }}</p>
 
-                        <!-- Action Button -->
                         <div class="mt-6">
                             <form action="" method="POST">
                                 @csrf
@@ -55,16 +51,13 @@
     </div>
 
     <script>
-        // Function to change images based on direction
         function changeImage(productId, direction) {
             const images = document.querySelectorAll(`#product-image-${productId} img`);
             let currentIndex = Array.from(images).findIndex(image => image.classList.contains('block'));
             const totalImages = images.length;
 
-            // Calculate new index
             let newIndex = (currentIndex + direction + totalImages) % totalImages;
 
-            // Hide all images and show the new one
             images.forEach(image => image.classList.add('hidden'));
             images[newIndex].classList.remove('hidden');
         }
